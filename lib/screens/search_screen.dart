@@ -67,94 +67,97 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final results = filtered;
 
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.fromLTRB(14, 24, 14, 28),
-        children: [
-          const Text(
-            'Buscar receitas',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 20),
-          TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: 'Buscar receitas...',
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: controller.text.isEmpty
-                  ? null
-                  : IconButton(
-                      onPressed: controller.clear,
-                      icon: const Icon(Icons.close),
-                    ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 18),
+    return Material(
+      color: AppColors.background,
+      child: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(14, 24, 14, 28),
+          children: [
+            const Text(
+              'Buscar receitas',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
             ),
-          ),
-          const SizedBox(height: 18),
-          const Text(
-            'Sugestões',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 7,
-            runSpacing: 7,
-            children: categories.map((item) {
-              final active = category == item;
-              return ChoiceChip(
-                label: Text(item),
-                selected: active,
-                onSelected: (_) => setState(() => category = item),
-                selectedColor: AppColors.softGreen,
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            'Filtros',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _filterChip(
-                label: maxMinutes == null ? 'Tempo' : 'Até $maxMinutes min',
-                onTap: () => _chooseTime(),
+            const SizedBox(height: 20),
+            TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                hintText: 'Buscar receitas...',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: controller.text.isEmpty
+                    ? null
+                    : IconButton(
+                        onPressed: controller.clear,
+                        icon: const Icon(Icons.close),
+                      ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 18),
               ),
-              _filterChip(
-                label: difficulty == 'Todas' ? 'Dificuldade' : difficulty,
-                onTap: () => _chooseDifficulty(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 26),
-          Text(
-            'Resultados (${results.length})',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 14),
-          if (results.isEmpty)
-            _emptyState()
-          else
-            ...results.map(
-              (recipe) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: RecipeCard(
-                  recipe: recipe,
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => RecipeDetailScreen(recipe: recipe),
+            ),
+            const SizedBox(height: 18),
+            const Text(
+              'Sugestões',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 7,
+              runSpacing: 7,
+              children: categories.map((item) {
+                final active = category == item;
+                return ChoiceChip(
+                  label: Text(item),
+                  selected: active,
+                  onSelected: (_) => setState(() => category = item),
+                  selectedColor: AppColors.softGreen,
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Filtros',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _filterChip(
+                  label: maxMinutes == null ? 'Tempo' : 'Até $maxMinutes min',
+                  onTap: () => _chooseTime(),
+                ),
+                _filterChip(
+                  label: difficulty == 'Todas' ? 'Dificuldade' : difficulty,
+                  onTap: () => _chooseDifficulty(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 26),
+            Text(
+              'Resultados (${results.length})',
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 14),
+            if (results.isEmpty)
+              _emptyState()
+            else
+              ...results.map(
+                (recipe) => Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: RecipeCard(
+                    recipe: recipe,
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => RecipeDetailScreen(recipe: recipe),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
