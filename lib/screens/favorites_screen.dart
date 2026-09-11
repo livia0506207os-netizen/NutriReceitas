@@ -63,8 +63,7 @@ class FavoritesScreen extends StatelessWidget {
                       recipe: recipe,
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) =>
-                              RecipeDetailScreen(recipe: recipe),
+                          builder: (_) => RecipeDetailScreen(recipe: recipe),
                         ),
                       ),
                     ),

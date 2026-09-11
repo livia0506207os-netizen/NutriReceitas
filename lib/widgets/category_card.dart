@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
-
 class CategoryCard extends StatelessWidget {
   final String label;
   final IconData icon;

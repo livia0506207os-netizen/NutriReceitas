@@ -21,13 +21,16 @@ class _SearchScreenState extends State<SearchScreen> {
 
   final categories = const [
     'Todas',
+    'Café da manhã',
+    'Almoço',
+    'Jantar',
     'Saladas',
-    'Frango',
-    'Smoothie',
-    'Omelete',
-    'Panqueca',
-    'Sopa',
-    'Bolo',
+    'Lanches',
+    'Sobremesas',
+    'Bebidas',
+    'Carnes',
+    'Massas',
+    'Outras',
   ];
 
   List<Recipe> get filtered {
@@ -228,7 +231,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (final item in ['Todas', 'Fácil', 'Médio', 'Média'])
+            for (final item in ['Todas', 'Fácil', 'Média', 'Difícil'])
               ListTile(
                 title: Text(item),
                 onTap: () => Navigator.pop(context, item),

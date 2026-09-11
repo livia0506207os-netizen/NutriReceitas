@@ -50,7 +50,8 @@ class NutriBottomNav extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12,
                         color: selected ? AppColors.primary : Colors.black,
-                        fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                        fontWeight:
+                            selected ? FontWeight.w600 : FontWeight.w400,
                       ),
                     ),
                   ],

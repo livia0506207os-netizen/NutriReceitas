@@ -7,6 +7,7 @@ import '../widgets/recipe_card.dart';
 import 'categories_screen.dart';
 import 'recipe_detail_screen.dart';
 import 'search_screen.dart';
+import '../services/auth_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = [
-      ('Café da manhã', Icons.free_breakfast_outlined, AppColors.softYellow, 'Café da manhã'),
+      (
+        'Café da manhã',
+        Icons.free_breakfast_outlined,
+        AppColors.softYellow,
+        'Café da manhã'
+      ),
       ('Almoço', Icons.restaurant_menu, AppColors.softGreen2, 'Almoço'),
       ('Jantar', Icons.ramen_dining, AppColors.softGreen, 'Jantar'),
       ('Sobremesa', Icons.cake_outlined, AppColors.softPink, 'Sobremesas'),
@@ -38,14 +44,16 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(height: 18),
                       Row(
                         children: [
-                          const Expanded(
-                            child: Text(
-                              'Olá, Mary!',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                          Expanded(
+                            child: AnimatedBuilder(
+                                animation: AuthController.instance,
+                                builder: (_, __) => Text(
+                                      'Olá, ${AuthController.instance.name}!',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )),
                           ),
                           Container(
                             width: 48,

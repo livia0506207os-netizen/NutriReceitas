@@ -38,7 +38,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     final filtered = selected == 'Todas'
         ? recipes
-        : recipes.where((r) => r.category == selected || r.mealType == selected).toList();
+        : recipes
+            .where((r) => r.category == selected || r.mealType == selected)
+            .toList();
 
     return Scaffold(
       appBar: AppBar(

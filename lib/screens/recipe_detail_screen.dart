@@ -92,11 +92,11 @@ class RecipeDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 ...recipe.steps.asMap().entries.map(
-                  (entry) => _StepRow(
-                    number: entry.key + 1,
-                    text: entry.value,
-                  ),
-                ),
+                      (entry) => _StepRow(
+                        number: entry.key + 1,
+                        text: entry.value,
+                      ),
+                    ),
                 const SizedBox(height: 28),
                 SizedBox(
                   height: 50,
@@ -130,7 +130,11 @@ class _InfoRow extends StatelessWidget {
     final items = [
       (Icons.schedule_outlined, '${recipe.minutes} min', 'Tempo'),
       (Icons.restaurant_outlined, recipe.difficulty, 'Dificuldade'),
-      (Icons.local_fire_department_outlined, '~${recipe.calories} kcal', 'Calorias'),
+      (
+        Icons.local_fire_department_outlined,
+        '~${recipe.calories} kcal',
+        'Calorias'
+      ),
       (Icons.people_outline, '${recipe.servings}', 'Quantidade'),
     ];
 

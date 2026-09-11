@@ -15,7 +15,8 @@ class FavoritesController extends ChangeNotifier {
     _prefs = await SharedPreferences.getInstance();
     _favoriteIds
       ..clear()
-      ..addAll(_prefs?.getStringList('favorite_recipe_ids')?.map(int.parse) ?? []);
+      ..addAll(
+          _prefs?.getStringList('favorite_recipe_ids')?.map(int.parse) ?? []);
     notifyListeners();
   }
 
@@ -32,6 +33,12 @@ class FavoritesController extends ChangeNotifier {
       'favorite_recipe_ids',
       _favoriteIds.map((id) => id.toString()).toList(),
     );
+    notifyListeners();
+  }
+
+  Future<void> clear() async {
+    _favoriteIds.clear();
+    await _prefs?.remove('favorite_recipe_ids');
     notifyListeners();
   }
 }

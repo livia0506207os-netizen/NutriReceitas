@@ -1,0 +1,27 @@
+name: Deploy Flutter Web
+
+on:
+  push:
+    branches: [desenvolvimento]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.35.0'
+      - run: flutter pub get
+      - run: flutter build web --release --base-href /NutriReceitas/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+      - uses: actions/deploy-pages@v4
