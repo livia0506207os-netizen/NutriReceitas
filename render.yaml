@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: nutria-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://livia0506207os-netizen.github.io

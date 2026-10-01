@@ -19,6 +19,7 @@ class NutriBottomNav extends StatelessWidget {
       (Icons.search, 'Buscar'),
       (Icons.favorite_border, 'Favoritos'),
       (Icons.person_outline, 'Perfil'),
+      (Icons.auto_awesome_outlined, 'NutriIA'),
     ];
 
     return SafeArea(

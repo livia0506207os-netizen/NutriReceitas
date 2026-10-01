@@ -1,11 +1,11 @@
 {
-    "name": "nutri_receitas",
-    "short_name": "nutri_receitas",
-    "start_url": ".",
+    "name": "NutriReceitas",
+    "short_name": "NutriReceitas",
+    "start_url": "/NutriReceitas/",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FFFFFF",
+    "theme_color": "#3F6540",
+    "description": "Receitas simples para uma rotina mais saudável.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

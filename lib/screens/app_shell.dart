@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/bottom_nav.dart';
 import 'favorites_screen.dart';
 import 'home_screen.dart';
+import 'nutria_screen.dart';
 import 'profile_screen.dart';
 import 'search_screen.dart';
 
@@ -21,6 +22,7 @@ class _AppShellState extends State<AppShell> {
     SearchScreen(),
     FavoritesScreen(),
     ProfileScreen(),
+    NutriaScreen(),
   ];
 
   @override

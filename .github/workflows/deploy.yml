@@ -5,6 +5,10 @@ on:
     branches: [desenvolvimento]
   workflow_dispatch:
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pages: write
@@ -18,10 +22,19 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: '3.35.0'
+          flutter-version: '3.44.0'
       - run: flutter pub get
-      - run: flutter build web --release --base-href /NutriReceitas/
+      - run: flutter build web --release --base-href /NutriReceitas/ --dart-define=NUTRIA_API_URL=${{ vars.NUTRIA_API_URL }}
+      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
-      - uses: actions/deploy-pages@v4
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
