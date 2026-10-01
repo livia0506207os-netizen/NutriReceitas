@@ -25,7 +25,7 @@ class NutriaService {
   }) async {
     if (apiUrl.isEmpty) {
       throw const NutriaException(
-        'A NutriIA ainda não foi configurada. Defina NUTRIA_API_URL para conectar o backend.',
+        'A NutriIA ainda não foi conectada ao backend de produção. Configure NUTRIA_API_URL no build do aplicativo.',
       );
     }
 

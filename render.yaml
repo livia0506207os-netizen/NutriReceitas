@@ -1,15 +1,15 @@
 services:
   - type: web
     name: nutria-backend
-    runtime: node
+    runtime: python
     rootDir: backend
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
     healthCheckPath: /health
     envVars:
-      - key: OPENAI_API_KEY
+      - key: GEMINI_API_KEY
         sync: false
-      - key: AI_MODEL
+      - key: GEMINI_MODEL
         sync: false
       - key: CORS_ORIGIN
         value: https://livia0506207os-netizen.github.io

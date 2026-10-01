@@ -24,6 +24,18 @@ jobs:
           channel: stable
           flutter-version: '3.44.0'
       - run: flutter pub get
+      - name: Validate NutriIA backend URL
+        env:
+          NUTRIA_API_URL: ${{ vars.NUTRIA_API_URL }}
+        run: |
+          if [ -z "$NUTRIA_API_URL" ]; then
+            echo "::error::Configure the repository variable NUTRIA_API_URL with the public Render URL ending in /api/chat."
+            exit 1
+          fi
+          case "$NUTRIA_API_URL" in
+            https://*) ;;
+            *) echo "::error::NUTRIA_API_URL must use HTTPS in production."; exit 1 ;;
+          esac
       - run: flutter build web --release --base-href /NutriReceitas/ --dart-define=NUTRIA_API_URL=${{ vars.NUTRIA_API_URL }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

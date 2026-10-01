@@ -1,8 +1,0 @@
-{
-  "name": "nutria-backend",
-  "private": true,
-  "type": "module",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=20" },
-  "dependencies": { "openai": "^4.80.0" }
-}

@@ -16,6 +16,10 @@ coverage/
 
 # NutriIA backend secrets
 backend/.env
+.venv/
+backend/.venv/
+__pycache__/
+backend/__pycache__/
 
 # OS
 .DS_Store
