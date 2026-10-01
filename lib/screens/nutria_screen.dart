@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/chat_message.dart';
 import '../services/nutria_controller.dart';
 import '../theme/app_colors.dart';
 import '../widgets/chat_bubble.dart';
@@ -31,8 +32,10 @@ class _NutriaScreenState extends State<NutriaScreen> {
     if (!mounted) return;
     setState(() {});
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scroll.hasClients) _scroll.animateTo(_scroll.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 260), curve: Curves.easeOut);
+      if (_scroll.hasClients) {
+        _scroll.animateTo(_scroll.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 260), curve: Curves.easeOut);
+      }
     });
   }
 
@@ -96,7 +99,7 @@ class _NutriaScreenState extends State<NutriaScreen> {
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
               children: [
                 if (messages.isEmpty) ...[
-                  const ChatBubble(message: ChatMessage(role: ChatMessageRole.assistant, text: 'Olá! Eu sou a NutriIA. 🍃 Estou aqui para ajudar você a descobrir receitas deliciosas e aproveitar melhor seus ingredientes!', createdAt: DateTime(2024))),
+                  ChatBubble(message: ChatMessage(role: ChatMessageRole.assistant, text: 'Olá! Eu sou a NutriIA. 🍃 Estou aqui para ajudar você a descobrir receitas deliciosas e aproveitar melhor seus ingredientes!', createdAt: DateTime.now())),
                   const SizedBox(height: 10),
                   const Text('Experimente perguntar:', style: TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10),
