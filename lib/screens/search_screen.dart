@@ -38,13 +38,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return recipes.where((recipe) {
       final nameMatch = recipe.name.toLowerCase().contains(query);
+      final ingredientMatch = recipe.ingredients.any(
+        (ingredient) => ingredient.toLowerCase().contains(query),
+      );
       final categoryMatch = category == 'Todas' ||
           recipe.category.toLowerCase().contains(category.toLowerCase()) ||
           recipe.name.toLowerCase().contains(category.toLowerCase());
       final difficultyMatch =
           difficulty == 'Todas' || recipe.difficulty == difficulty;
       final timeMatch = maxMinutes == null || recipe.minutes <= maxMinutes!;
-      return nameMatch && categoryMatch && difficultyMatch && timeMatch;
+      final textMatch = query.isEmpty || nameMatch || ingredientMatch;
+      return textMatch && categoryMatch && difficultyMatch && timeMatch;
     }).toList();
   }
 

@@ -1,6 +1,7 @@
 import '../models/recipe.dart';
+import 'additional_recipes.dart';
 
-const recipes = <Recipe>[
+final recipes = <Recipe>[
   Recipe(
     id: 1,
     name: 'Bolo de banana',
@@ -321,4 +322,5 @@ const recipes = <Recipe>[
     difficulty: 'Fácil',
     calories: 370,
   ),
+  ...additionalRecipes,
 ];
