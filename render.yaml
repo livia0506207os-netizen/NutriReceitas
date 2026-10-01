@@ -9,7 +9,7 @@ services:
     envVars:
       - key: OPENAI_API_KEY
         sync: false
-      - key: OPENAI_MODEL
+      - key: AI_MODEL
         sync: false
       - key: CORS_ORIGIN
         value: https://livia0506207os-netizen.github.io

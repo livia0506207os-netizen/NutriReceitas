@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/chat_message.dart';
 import '../services/nutria_controller.dart';
@@ -63,8 +64,12 @@ class _NutriaScreenState extends State<NutriaScreen> {
         title: const Text('Limpar conversa?'),
         content: const Text('Todo o histórico desta sessão será apagado.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancelar')),
-          FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Limpar')),
+          TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancelar')),
+          FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Limpar')),
         ],
       ),
     );
@@ -81,16 +86,28 @@ class _NutriaScreenState extends State<NutriaScreen> {
             padding: const EdgeInsets.fromLTRB(20, 22, 12, 10),
             child: Row(children: [
               Container(
-                width: 48, height: 48,
-                decoration: const BoxDecoration(color: AppColors.softGreen, shape: BoxShape.circle),
-                child: const Icon(Icons.auto_awesome_outlined, color: AppColors.primary),
+                width: 48,
+                height: 48,
+                decoration: const BoxDecoration(
+                    color: AppColors.softGreen, shape: BoxShape.circle),
+                child: const Icon(Icons.auto_awesome_outlined,
+                    color: AppColors.primary),
               ),
               const SizedBox(width: 12),
-              const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('NutriIA', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
-                Text('Sua assistente culinária', style: TextStyle(color: AppColors.muted, fontSize: 13)),
-              ])),
-              IconButton(onPressed: _clear, tooltip: 'Limpar conversa', icon: const Icon(Icons.delete_outline)),
+              const Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text('NutriIA',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w600)),
+                    Text('Sua assistente culinária',
+                        style: TextStyle(color: AppColors.muted, fontSize: 13)),
+                  ])),
+              IconButton(
+                  onPressed: _clear,
+                  tooltip: 'Limpar conversa',
+                  icon: const Icon(Icons.delete_outline)),
             ]),
           ),
           Expanded(
@@ -99,29 +116,71 @@ class _NutriaScreenState extends State<NutriaScreen> {
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
               children: [
                 if (messages.isEmpty) ...[
-                  ChatBubble(message: ChatMessage(role: ChatMessageRole.assistant, text: 'Olá! Eu sou a NutriIA. 🍃 Estou aqui para ajudar você a descobrir receitas deliciosas e aproveitar melhor seus ingredientes!', createdAt: DateTime.now())),
+                  ChatBubble(
+                      message: ChatMessage(
+                          role: ChatMessageRole.assistant,
+                          text:
+                              'Olá! Eu sou a NutriIA. 🍃 Estou aqui para ajudar você a descobrir receitas deliciosas e aproveitar melhor seus ingredientes!',
+                          createdAt: DateTime.now())),
                   const SizedBox(height: 10),
-                  const Text('Experimente perguntar:', style: TextStyle(fontWeight: FontWeight.w600)),
+                  const Text('Experimente perguntar:',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 10),
                   ..._suggestions.map((item) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: OutlinedButton.icon(
-                      onPressed: () => _send(item),
-                      icon: const Icon(Icons.eco_outlined, size: 17),
-                      label: Text(item),
-                      style: OutlinedButton.styleFrom(alignment: Alignment.centerLeft, foregroundColor: AppColors.primary, side: const BorderSide(color: AppColors.softGreen), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: OutlinedButton.icon(
+                          onPressed: () => _send(item),
+                          icon: const Icon(Icons.eco_outlined, size: 17),
+                          label: Text(item),
+                          style: OutlinedButton.styleFrom(
+                              alignment: Alignment.centerLeft,
+                              foregroundColor: AppColors.primary,
+                              side:
+                                  const BorderSide(color: AppColors.softGreen),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16))),
+                        ),
+                      )),
+                ] else
+                  ...messages.map(
+                    (message) => ChatBubble(
+                      message: message,
+                      onCopy: message.isUser
+                          ? null
+                          : () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: message.text),
+                              );
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Resposta copiada.'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
                     ),
-                  )),
-                ] else ...messages.map((message) => ChatBubble(message: message)),
+                  ),
                 if (_controller.isLoading)
-                  const Align(alignment: Alignment.centerLeft, child: Padding(padding: EdgeInsets.only(bottom: 12), child: _TypingIndicator())),
+                  const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                          padding: EdgeInsets.only(bottom: 12),
+                          child: _TypingIndicator())),
                 if (_controller.error != null)
                   Container(
                     padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(color: Colors.red.shade50, borderRadius: BorderRadius.circular(14)),
+                    decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(14)),
                     child: Row(children: [
-                      Expanded(child: Text(_controller.error!, style: TextStyle(color: Colors.red.shade800, fontSize: 13))),
-                      TextButton(onPressed: _controller.retry, child: const Text('Tentar novamente')),
+                      Expanded(
+                          child: Text(_controller.error!,
+                              style: TextStyle(
+                                  color: Colors.red.shade800, fontSize: 13))),
+                      TextButton(
+                          onPressed: _controller.retry,
+                          child: const Text('Tentar novamente')),
                     ]),
                   ),
               ],
@@ -130,9 +189,28 @@ class _NutriaScreenState extends State<NutriaScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 12),
             child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Expanded(child: TextField(controller: _input, minLines: 1, maxLines: 5, textInputAction: TextInputAction.newline, decoration: InputDecoration(hintText: 'Pergunte sobre receitas...', filled: true, fillColor: AppColors.softGray, border: OutlineInputBorder(borderRadius: BorderRadius.circular(22), borderSide: BorderSide.none), contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12)))),
+              Expanded(
+                  child: TextField(
+                      controller: _input,
+                      minLines: 1,
+                      maxLines: 5,
+                      textInputAction: TextInputAction.newline,
+                      decoration: InputDecoration(
+                          hintText: 'Pergunte sobre receitas...',
+                          filled: true,
+                          fillColor: AppColors.softGray,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(22),
+                              borderSide: BorderSide.none),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12)))),
               const SizedBox(width: 8),
-              IconButton.filled(onPressed: _controller.isLoading ? null : _send, style: IconButton.styleFrom(backgroundColor: AppColors.primary, foregroundColor: Colors.white), icon: const Icon(Icons.arrow_upward)),
+              IconButton.filled(
+                  onPressed: _controller.isLoading ? null : _send,
+                  style: IconButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white),
+                  icon: const Icon(Icons.arrow_upward)),
             ]),
           ),
         ],
@@ -144,5 +222,9 @@ class _NutriaScreenState extends State<NutriaScreen> {
 class _TypingIndicator extends StatelessWidget {
   const _TypingIndicator();
   @override
-  Widget build(BuildContext context) => Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), decoration: BoxDecoration(color: AppColors.softGreen, borderRadius: BorderRadius.circular(18)), child: const Text('NutriIA está pensando...'));
+  Widget build(BuildContext context) => Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+          color: AppColors.softGreen, borderRadius: BorderRadius.circular(18)),
+      child: const Text('NutriIA está pensando...'));
 }

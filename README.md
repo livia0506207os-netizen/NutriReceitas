@@ -11,6 +11,7 @@ Aplicativo academico de receitas desenvolvido com Flutter e Dart, inspirado no p
 - Filtros por categoria, tempo e dificuldade padronizada: Facil, Media e Dificil.
 - Favoritos persistentes com `shared_preferences`.
 - NutriIA com histórico de conversa, preferências alimentares e integração via backend seguro.
+- NutriIA com contexto limitado por tamanho, catálogo real de receitas e cópia de respostas.
 - Layout responsivo para mobile e Flutter Web.
 
 ## Tecnologias
@@ -62,7 +63,7 @@ test/                   testes de receitas, busca e autenticacao inicial
 
 ## Configurar a NutriIA
 
-O app não contém nenhuma chave de API. No backend, configure `OPENAI_API_KEY` e `OPENAI_MODEL`
+O app não contém nenhuma chave de API. No backend, configure `OPENAI_API_KEY` e `AI_MODEL`
 com variáveis de ambiente e execute:
 
 ```bash
@@ -89,5 +90,10 @@ por exemplo `https://nutria-backend.onrender.com/chat`. Sem essa variável, o ap
 mas informa que a NutriIA não foi configurada.
 
 Para o Render, crie um novo Blueprint apontando para este repositório e aceite o `render.yaml`.
-Depois preencha `OPENAI_API_KEY` e `OPENAI_MODEL` nos Environment Variables do serviço. A chave fica
+Depois preencha `OPENAI_API_KEY` e `AI_MODEL` nos Environment Variables do serviço. A chave fica
 somente no Render; o Flutter recebe apenas a URL pública por `NUTRIA_API_URL`.
+
+O backend mantém até 24 mensagens recentes dentro de um limite aproximado de 28 mil caracteres e
+recebe um resumo do catálogo real de receitas do aplicativo. O modelo continua configurável por
+`AI_MODEL` (ou `OPENAI_MODEL` por compatibilidade); o projeto não presume nem fixa um modelo que
+possa não estar disponível na conta.
