@@ -9,7 +9,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 200 * 1024
-CORS(app, resources={r'/api/*': {'origins': os.getenv('CORS_ORIGIN', '*')}})
+CORS_ORIGIN = os.getenv('CORS_ORIGIN', 'https://livia0506207os-netizen.github.io')
+CORS(app, resources={r'/api/*': {'origins': CORS_ORIGIN}})
 
 WINDOW_SECONDS = 60
 MAX_REQUESTS_PER_IP = 20
