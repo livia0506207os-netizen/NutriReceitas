@@ -98,7 +98,7 @@ async function chat(request, env, origin) {
   }));
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(env.GEMINI_MODEL)}:generateContent`;
   const payload = {
-    system_instruction: { parts: [{ text: `${SYSTEM_PROMPT}\n\nPreferências: ${preferences}\n\nCatálogo:\n${catalog}` }] },
+    systemInstruction: { parts: [{ text: `${SYSTEM_PROMPT}\n\nPreferências: ${preferences}\n\nCatálogo:\n${catalog}` }] },
     contents,
     generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
   };
