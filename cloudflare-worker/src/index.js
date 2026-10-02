@@ -100,16 +100,23 @@ async function chat(request, env, origin) {
   const payload = {
     systemInstruction: { parts: [{ text: `${SYSTEM_PROMPT}\n\nPreferências: ${preferences}\n\nCatálogo:\n${catalog}` }] },
     contents,
-    generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 1024,
+      thinkingConfig: { thinkingLevel: 'low' },
+    },
   };
 
   let response;
   try {
-    response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
-      body: JSON.stringify(payload),
-    });
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
+        body: JSON.stringify(payload),
+      });
+      if (response.ok || response.status < 500 || attempt === 1) break;
+    }
   } catch {
     return json({ error: 'Não foi possível conectar à Gemini agora. Tente novamente.' }, 502, origin);
   }
@@ -159,7 +166,15 @@ export default {
     }
     if (request.method === 'OPTIONS') {
       if (!origin) return json({ error: 'Origem não permitida.' }, 403);
-      return json({}, 204, origin);
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'access-control-allow-origin': origin,
+          'access-control-allow-methods': 'POST, GET, OPTIONS',
+          'access-control-allow-headers': 'Content-Type',
+          'vary': 'Origin',
+        },
+      });
     }
     if (url.pathname === '/health' && request.method === 'GET') {
       return json({ ok: true, geminiConfigured: Boolean(env.GEMINI_API_KEY && env.GEMINI_MODEL) }, 200, origin);
