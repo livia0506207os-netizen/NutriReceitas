@@ -25,6 +25,7 @@ backend/__pycache__/
 cloudflare-worker/.dev.vars
 cloudflare-worker/.env
 cloudflare-worker/.env.*
+cloudflare-worker/.wrangler/
 
 # OS
 .DS_Store
