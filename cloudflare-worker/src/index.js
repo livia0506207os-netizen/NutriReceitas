@@ -115,6 +115,20 @@ async function chat(request, env, origin) {
   }
 
   if (!response.ok) {
+    let errorStatus;
+    let errorMessage = '';
+    try {
+      const errorData = await response.clone().json();
+      errorStatus = errorData?.error?.status;
+      errorMessage = String(errorData?.error?.message || '').slice(0, 200);
+    } catch {
+      errorMessage = '';
+    }
+    console.error('Gemini request failed', {
+      httpStatus: response.status,
+      errorStatus,
+      message: errorMessage,
+    });
     if (response.status === 429) return json({ error: 'A Gemini atingiu o limite temporário. Tente novamente em instantes.' }, 429, origin);
     if (response.status === 400) return json({ error: 'O Gemini rejeitou o formato da solicitação.' }, 502, origin);
     if (response.status === 401 || response.status === 403) return json({ error: 'A credencial do Gemini foi rejeitada.' }, 502, origin);
