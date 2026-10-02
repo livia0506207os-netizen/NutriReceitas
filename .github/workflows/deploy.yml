@@ -29,7 +29,7 @@ jobs:
           NUTRIA_API_URL: ${{ vars.NUTRIA_API_URL }}
         run: |
           if [ -z "$NUTRIA_API_URL" ]; then
-            echo "::error::Configure the repository variable NUTRIA_API_URL with the public Render URL ending in /api/chat."
+            echo "::error::Configure the repository variable NUTRIA_API_URL with the public Worker URL ending in /api/chat."
             exit 1
           fi
           case "$NUTRIA_API_URL" in

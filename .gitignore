@@ -21,6 +21,11 @@ backend/.venv/
 __pycache__/
 backend/__pycache__/
 
+# Cloudflare Worker local secrets
+cloudflare-worker/.dev.vars
+cloudflare-worker/.env
+cloudflare-worker/.env.*
+
 # OS
 .DS_Store
 Thumbs.db

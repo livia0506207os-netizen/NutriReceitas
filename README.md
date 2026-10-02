@@ -83,17 +83,18 @@ flutter run --dart-define=NUTRIA_API_URL=http://localhost:8787/api/chat
 Em celular físico, use o IP da máquina no lugar de `localhost`. Em produção, publique o backend
 com HTTPS. Nunca coloque a chave da Gemini no Flutter ou no GitHub.
 
-## GitHub Pages e Render
+## GitHub Pages e Cloudflare Workers
 
 O workflow `.github/workflows/deploy.yml` publica a branch `desenvolvimento` no endereço
 `https://livia0506207os-netizen.github.io/NutriReceitas/`. No GitHub, configure Pages com a origem
-**GitHub Actions** e crie a variável de repositório `NUTRIA_API_URL` com a URL pública do backend,
-por exemplo `https://nutria-backend.onrender.com/api/chat`. Sem essa variável, o workflow falha
+**GitHub Actions** e crie a variável de repositório `NUTRIA_API_URL` com a URL pública do Worker,
+por exemplo `https://nutrireceitas-nutria.seu-subdominio.workers.dev/api/chat`. Sem essa variável, o workflow falha
 antes do deploy para impedir uma publicação com URL vazia.
 
-Para o Render, crie um novo Blueprint apontando para este repositório e aceite o `render.yaml`.
-Depois preencha `GEMINI_API_KEY` e `GEMINI_MODEL` nos Environment Variables do serviço. A chave fica
-somente no Render; o Flutter recebe apenas a URL pública por `NUTRIA_API_URL`.
+Para o Cloudflare Workers, publique `cloudflare-worker/src/index.js` e configure `GEMINI_API_KEY`
+e `GEMINI_MODEL` como secrets. Configure `CORS_ORIGIN` com o domínio do GitHub Pages. A chave fica
+somente no Worker; o Flutter recebe apenas a URL pública por `NUTRIA_API_URL`. O passo a passo completo
+está em `cloudflare-worker/README.md`.
 
 O backend mantém até 24 mensagens recentes dentro de um limite aproximado de 28 mil caracteres e
 recebe um resumo do catálogo real de receitas do aplicativo. A chamada usa o endpoint REST oficial

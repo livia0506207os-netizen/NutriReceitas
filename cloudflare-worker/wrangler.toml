@@ -1,0 +1,7 @@
+name = "nutrireceitas-nutria"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+CORS_ORIGIN = "https://livia0506207os-netizen.github.io"
+GEMINI_MODEL = "gen-lang-client-0407481839"
