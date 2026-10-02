@@ -116,6 +116,9 @@ async function chat(request, env, origin) {
 
   if (!response.ok) {
     if (response.status === 429) return json({ error: 'A Gemini atingiu o limite temporário. Tente novamente em instantes.' }, 429, origin);
+    if (response.status === 400) return json({ error: 'O Gemini rejeitou o formato da solicitação.' }, 502, origin);
+    if (response.status === 401 || response.status === 403) return json({ error: 'A credencial do Gemini foi rejeitada.' }, 502, origin);
+    if (response.status === 404) return json({ error: 'O modelo Gemini configurado não foi encontrado.' }, 502, origin);
     return json({ error: 'A Gemini não conseguiu processar a mensagem. Verifique o modelo e tente novamente.' }, 502, origin);
   }
 
